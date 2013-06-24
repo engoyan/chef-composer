@@ -20,6 +20,8 @@ unless node[:composer][:install_globally]
     end
 end
 
+Chef::Log.debug("Installing composer")
+
 bash "download_composer" do
 	cwd "#{Chef::Config[:file_cache_path]}"
 	code <<-EOH
@@ -32,6 +34,15 @@ if node[:composer][:install_globally]
 		cwd "#{Chef::Config[:file_cache_path]}"
 		code <<-EOH
 			sudo mv composer.phar #{node[:composer][:prefix]}/bin/composer
+		EOH
+	end
+end
+
+unless node[:composer][:github_oauth].nil? || node[:composer][:github_oauth].empty?
+	Chef::Log.debug("Adding github client secret")
+	bash "config_composer" do
+		code <<-EOH
+			composer config -g github-oauth.github.com #{node[:composer][:github_oauth]}
 		EOH
 	end
 end
