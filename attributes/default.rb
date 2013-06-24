@@ -10,4 +10,3 @@ default[:composer][:prefix] = "/usr/local"
 default[:composer][:url] = "https://getcomposer.org/installer"
 default[:composer][:install_dir] = nil
 default[:composer][:github_oauth] = nil
-default[:composer][:deploy_user] = 'deploy'
